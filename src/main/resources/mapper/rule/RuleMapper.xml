@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.fast.mapper.rule.RuleMapper">
+    <select id="getBus" resultType="com.hello.fast.DO.BuDO">
+        select * from bu_t
+    </select>
+
+    <select id="getBid" resultType="integer">
+        select id from bu_t where name=#{name}
+    </select>
+
+    <select id="getScenes" resultType="com.hello.fast.DO.SceneDO">
+        select * from scene_t where bid=#{bid}
+    </select>
+
+    <select id="getSid" resultType="integer">
+        select id from scene_t where name =#{name}
+    </select>
+
+    <select id="getRules" resultType="com.hello.fast.DO.RuleDO">
+        select * from rules_t where bid=#{bid} and sid=#{sid} and status=#{status}
+    </select>
+
+    <update id="changeEM" parameterType="com.hello.fast.DO.SceneDO" >
+        update `scene_t` set eid=#{eid} where  id = #{id} and bid=#{bid}
+    </update>
+
+    <insert id="addBu" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `bu_t`(name) value (#{name})
+    </insert>
+
+    <insert id="addScene" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `scene_t`(bid, name, eid) value (#{bid}, #{name}, #{eid})
+    </insert>
+
+    <insert id="addRule" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into `rules_t`(bid, sid, username, name, description, salience, content, status) value (#{bid}, #{sid},#{username},#{name}, #{description}, #{salience}, #{content}, 0)
+    </insert>
+
+    <update id="changeStatus">
+        update `rules_t` set status = #{status}, username=#{username} where name = #{name} and bid=#{bid} and sid= #{sid}
+    </update>
+
+    <update id="updateRule">
+        update `rules_t` set username = #{username}, description=#{description}, salience = #{salience}, content=#{content} where bid=#{bid} and sid=#{sid} and name=#{name}
+    </update>
+
+</mapper>

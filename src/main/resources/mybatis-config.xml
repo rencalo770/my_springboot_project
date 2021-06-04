@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD  Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+
+        <!--当该属性为true时，从数据库中查询到的数据映射到实体类，会把下划线映射成驼峰形式。如果在不设定resultMap的情况下，实体类又是驼峰定义的，这个属性是必设的，否则实体类所有的驼峰成员都将拿不到值 -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        <!-- <setting name="logImpl" value="STDOUT_LOGGING" /> -->
+    </settings>
+
+    <!--设置这个之后，就不必在mapper中写返回结果的全路径了 -->
+<!--    <typeAliases>
+        <package name="com.alibaba.fast.DO" />
+    </typeAliases>-->
+</configuration>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <!--datasource 1-->
+    <bean id="testDataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+        <property name="url" value="${test.datasource.url}"/>
+        <property name="username" value="${test.datasource.username}"/>
+        <property name="password" value="${test.datasource.password}"/>
+        <property name="driver" value="${test.datasource.driverClassName}"/>
+    </bean>
+
+    <!--datasource 2-->
+    <bean id="ruleDataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+        <property name="url" value="${test1.datasource.url}"/>
+        <property name="username" value="${test1.datasource.username}"/>
+        <property name="password" value="${test.datasource.password}"/>
+        <property name="driver" value="${test.datasource.driverClassName}"/>
+    </bean>
+
+    <!-- sqlSessionFactory & mapper.xml 1-->
+    <bean id="testSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource"  ref="testDataSource"/> <!-- 这里就可以做到不同的mapper配置不同的数据源 -->
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:mapper/blog/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- sqlSessionFactory & mapper.xml 1-->
+    <bean id="rulesSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ruleDataSource"/>
+        <property name="configLocation" value="classpath:/mybatis-config.xml"/>
+        <property name="mapperLocations" >
+            <list>
+                <value>classpath*:mapper/rule/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--scanner 1 -->
+    <bean id="testSqlSessionFactoryScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="testSqlSessionFactory"/>
+        <property name="basePackage" value="com.hello.fast.mapper.blog"/>
+    </bean>
+
+    <!--scanner 2 -->
+    <bean id="rulesSqlSessionFactoryScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="rulesSqlSessionFactory"/>
+        <property name="basePackage" value="com.hello.fast.mapper.rule"/>
+    </bean>
+
+<!--    <bean id="commTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="testDataSource"/>
+    </bean>-->
+</beans>
